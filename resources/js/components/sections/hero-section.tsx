@@ -42,12 +42,12 @@ export function HeroSection({ settings, clientCount, tagline, shortDescription, 
 
             {/* Main Content */}
             <div className="relative flex flex-col items-center max-w-4xl w-full text-center space-y-8 z-10 container">
-                <div className="animate-fade-in-down rounded-3xl bg-white/70 p-5 shadow-xl backdrop-blur-sm sm:p-6">
+                <div className="animate-fade-in-down flex items-center justify-center">
                     <AppLogo
                         logoPath={settings.logo_path}
                         companyName={settings.company_name}
                         size="lg"
-                        className="h-36 w-36 rounded-xl sm:h-40 sm:w-40"
+                        className="h-36 w-36 rounded-none drop-shadow-[0_0_14px_rgba(255,255,255,0.9)] sm:h-40 sm:w-40"
                     />
                 </div>
 
