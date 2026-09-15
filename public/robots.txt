@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /storage/private
+
+Crawl-delay: 1
+
+Sitemap: https://sigapsecurity.com/sitemap.xml

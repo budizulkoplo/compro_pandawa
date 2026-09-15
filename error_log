@@ -1,0 +1,10 @@
+[23-Oct-2025 19:12:49 Asia/Jakarta] PHP Warning:  require(/home/sigm2422/public_html/compro_sigap/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sigm2422/public_html/compro_sigap/artisan on line 10
+[23-Oct-2025 19:12:49 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sigm2422/public_html/compro_sigap/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sigm2422/public_html/compro_sigap/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sigm2422/public_html/compro_sigap/artisan on line 10
+[23-Oct-2025 19:13:40 Asia/Jakarta] PHP Warning:  require(/home/sigm2422/public_html/compro_sigap/vendor/autoload.php): Failed to open stream: No such file or directory in /home/sigm2422/public_html/compro_sigap/artisan on line 10
+[23-Oct-2025 19:13:40 Asia/Jakarta] PHP Fatal error:  Uncaught Error: Failed opening required '/home/sigm2422/public_html/compro_sigap/vendor/autoload.php' (include_path='.:/opt/alt/php83/usr/share/pear:/opt/alt/php83/usr/share/php:/usr/share/pear:/usr/share/php') in /home/sigm2422/public_html/compro_sigap/artisan:10
+Stack trace:
+#0 {main}
+  thrown in /home/sigm2422/public_html/compro_sigap/artisan on line 10

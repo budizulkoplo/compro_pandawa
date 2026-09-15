@@ -1,0 +1,531 @@
+@import 'tailwindcss';
+@plugin "@tailwindcss/typography";
+
+@import "tw-animate-css";
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+    --font-sans:
+        'Poppins', ui-sans-serif, system-ui, sans-serif,
+        'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.625rem;
+
+  /* Base colors - menggunakan oklch sesuai logo */
+  --background: oklch(0.99 0.01 220); /* #F3FCFF - very light blue */
+  --foreground: oklch(0.25 0.04 240); /* #00334E - navy blue */
+
+  /* Card */
+  --card: oklch(1 0 0); /* white */
+  --card-foreground: oklch(0.25 0.04 240);
+
+  /* Popover */
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.04 240);
+
+  /* Primary - using brand medium-dark blue #1E94D2 */
+  --primary: oklch(0.6 0.12 230); /* #1E94D2 */
+  --primary-foreground: oklch(1 0 0);
+
+  /* Secondary - using brand light cyan #C1EBF7 */
+  --secondary: oklch(0.92 0.04 220); /* #C1EBF7 */
+  --secondary-foreground: oklch(0.25 0.04 240);
+
+  /* Muted */
+  --muted: oklch(0.95 0.02 220); /* #E6F7FB */
+  --muted-foreground: oklch(0.45 0.08 230); /* #126088 */
+
+  /* Accent - using brand bright cyan #21B6FC */
+  --accent: oklch(0.7 0.14 230); /* #21B6FC */
+  --accent-foreground: oklch(1 0 0);
+
+  /* Destructive */
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(1 0 0);
+
+  /* Border */
+  --border: oklch(0.92 0.04 220); /* #C1EBF7 */
+  --input: oklch(0.92 0.04 220);
+  --ring: oklch(0.7 0.14 230); /* #21B6FC */
+
+  /* Charts - using brand color variations */
+  --chart-1: oklch(0.7 0.14 230); /* #21B6FC */
+  --chart-2: oklch(0.6 0.12 230); /* #1E94D2 */
+  --chart-3: oklch(0.55 0.1 215); /* #00A3CC */
+  --chart-4: oklch(0.45 0.08 230); /* #126088 */
+  --chart-5: oklch(0.25 0.04 240); /* #00334E */
+
+  /* Sidebar */
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.25 0.04 240);
+  --sidebar-primary: oklch(0.6 0.12 230);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.95 0.02 220);
+  --sidebar-accent-foreground: oklch(0.25 0.04 240);
+  --sidebar-border: oklch(0.92 0.04 220);
+  --sidebar-ring: oklch(0.7 0.14 230);
+}
+
+.dark {
+  /* Base colors - dark mode */
+  --background: oklch(0.18 0.02 240); /* #03131D - very dark blue */
+  --foreground: oklch(0.95 0.02 220); /* #E6F7FB - light cyan text */
+
+  /* Card */
+  --card: oklch(0.22 0.03 235); /* #0A2332 */
+  --card-foreground: oklch(0.95 0.02 220);
+
+  /* Popover */
+  --popover: oklch(0.22 0.03 235);
+  --popover-foreground: oklch(0.95 0.02 220);
+
+  /* Primary - brighter in dark mode */
+  --primary: oklch(0.7 0.14 230); /* #21B6FC */
+  --primary-foreground: oklch(0.18 0.02 240);
+
+  /* Secondary */
+  --secondary: oklch(0.45 0.08 230); /* #126088 */
+  --secondary-foreground: oklch(0.95 0.02 220);
+
+  /* Muted */
+  --muted: oklch(0.28 0.04 235); /* #123449 */
+  --muted-foreground: oklch(0.92 0.04 220);
+
+  /* Accent */
+  --accent: oklch(0.7 0.14 230); /* #21B6FC */
+  --accent-foreground: oklch(0.18 0.02 240);
+
+  /* Destructive */
+  --destructive: oklch(0.6 0.2 27);
+  --destructive-foreground: oklch(0.95 0.02 220);
+
+  /* Border */
+  --border: oklch(0.45 0.08 230); /* #126088 */
+  --input: oklch(0.45 0.08 230);
+  --ring: oklch(0.7 0.14 230);
+
+  /* Charts */
+  --chart-1: oklch(0.7 0.14 230);
+  --chart-2: oklch(0.6 0.12 230);
+  --chart-3: oklch(0.55 0.1 215);
+  --chart-4: oklch(0.92 0.04 220);
+  --chart-5: oklch(0.95 0.02 220);
+
+  /* Sidebar */
+  --sidebar: oklch(0.22 0.03 235);
+  --sidebar-foreground: oklch(0.95 0.02 220);
+  --sidebar-primary: oklch(0.7 0.14 230);
+  --sidebar-primary-foreground: oklch(0.18 0.02 240);
+  --sidebar-accent: oklch(0.28 0.04 235);
+  --sidebar-accent-foreground: oklch(0.95 0.02 220);
+  --sidebar-border: oklch(0.45 0.08 230);
+  --sidebar-ring: oklch(0.7 0.14 230);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+    video::-webkit-media-controls-panel {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+
+    video::-webkit-media-controls-play-button,
+    video::-webkit-media-controls-mute-button,
+    video::-webkit-media-controls-fullscreen-button {
+        filter: invert(1);
+    }
+}
+
+.dark video::-webkit-media-controls-panel {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+.dark video::-webkit-media-controls-play-button,
+.dark video::-webkit-media-controls-mute-button,
+.dark video::-webkit-media-controls-fullscreen-button {
+    filter: invert(1);
+}
+
+/* Custom scrollbar styling */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.92 0.04 220);
+  border-radius: 5px;
+  transition: background 0.3s ease;
+  -webkit-transition: background 0.3s ease;
+  -moz-transition: background 0.3s ease;
+  -ms-transition: background 0.3s ease;
+  -o-transition: background 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.7 0.14 230); /* #21B6FC */
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: oklch(0.6 0.12 230); /* #1E94D2 */
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0.92 0.04 220) transparent;
+}
+
+/* Custom gradient background for body - sesuai logo */
+body {
+  background: linear-gradient(135deg, #f3fcff 0%, #c1e8f7 100%);
+}
+
+/* Smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+@layer utilities {
+    .animate-fade-in {
+        animation: fadeIn 0.6s ease-in;
+    }
+
+    .animate-fade-in-up {
+        animation: fadeInUp 0.8s ease-out;
+    }
+
+    .animate-fade-in-down {
+        animation: fadeInDown 0.8s ease-out;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+}
+
+/* Animation keyframes for Hero Section */
+@keyframes fade-in-down {
+  0% {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-up {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in-down {
+  animation: fade-in-down 0.8s ease-out;
+}
+
+.animate-fade-in {
+  animation: fade-in 1s ease-out 0.2s both;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 0.8s ease-out 0.4s both;
+}
+
+.delay-200 {
+  animation-delay: 0.6s;
+}
+
+.delay-300 {
+  animation-delay: 0.8s;
+}
+
+.delay-500 {
+  animation-delay: 1s;
+}
+
+.delay-700 {
+  animation-delay: 1.4s;
+}
+
+@keyframes fade-in-left {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fade-in-right {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate-fade-in-left {
+  animation: fade-in-left 0.8s ease-out;
+}
+
+.animate-fade-in-right {
+  animation: fade-in-right 0.8s ease-out;
+}
+
+.delay-100 {
+  animation-delay: 0.2s;
+}
+
+/* Infinite scroll animation for carousel */
+@keyframes infinite-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-33.333%);
+  }
+}
+
+.animate-infinite-scroll {
+  animation: infinite-scroll 40s linear infinite;
+}
+
+/* Faster animation for fewer items */
+.animate-infinite-scroll-fast {
+  animation: infinite-scroll 25s linear infinite;
+}
+
+.prose {
+  @apply text-foreground leading-relaxed max-w-7xl w-full text-justify;
+  color: inherit; /* Pastikan warna mengikuti theme */
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  @apply font-bold text-foreground mt-8 mb-4 leading-tight;
+  color: inherit;
+}
+
+.prose h1 {
+  @apply text-3xl md:text-4xl mb-6;
+}
+.prose h2 {
+  @apply text-2xl md:text-3xl mb-5;
+}
+.prose h3 {
+  @apply text-xl md:text-2xl mb-4;
+}
+.prose h4 {
+  @apply text-lg md:text-xl mb-3;
+}
+.prose h5 {
+  @apply text-base md:text-lg mb-3;
+}
+.prose h6 {
+  @apply text-sm md:text-base mb-2;
+}
+
+.prose p {
+  @apply mb-6 text-base md:text-lg leading-7;
+  color: inherit;
+}
+
+/* Perbaikan untuk lists */
+.prose ul, .prose ol {
+  @apply mb-6 pl-6;
+}
+
+.prose ul {
+  list-style-type: disc;
+}
+
+.prose ol {
+  list-style-type: decimal;
+}
+
+.prose ul ul {
+  list-style-type: circle;
+}
+
+.prose ol ol {
+  list-style-type: lower-alpha;
+}
+
+.prose li {
+  @apply mb-2 text-base md:text-lg;
+  display: list-item;
+  color: inherit;
+}
+
+.prose li p {
+  @apply mb-2;
+}
+
+.prose li p:last-child {
+  @apply mb-0;
+}
+
+.prose blockquote {
+  @apply border-l-4 border-primary pl-6 italic bg-muted/30 py-4 my-6 rounded-r-lg;
+  color: inherit;
+}
+
+.prose img {
+  @apply rounded-lg mx-auto my-8 shadow-md;
+  max-width: 100%;
+  height: auto;
+}
+
+.prose table {
+  @apply w-full border-collapse border border-border my-6 rounded-lg overflow-hidden;
+}
+
+.prose th, .prose td {
+  @apply border border-border px-4 py-3;
+}
+
+.prose th {
+  @apply bg-muted font-semibold;
+}
+
+.prose a {
+  @apply text-primary hover:text-primary/80 underline transition-colors;
+}
+
+.prose strong {
+  @apply font-bold;
+  color: inherit;
+}
+
+.prose em {
+  @apply italic;
+  color: inherit;
+}
+
+.prose code {
+  @apply bg-muted px-2 py-1 rounded text-sm font-mono;
+  color: inherit;
+}
+
+.prose pre {
+  @apply bg-muted p-4 rounded-lg overflow-x-auto my-6;
+}
+
+.prose pre code {
+  @apply bg-transparent p-0;
+}
+
