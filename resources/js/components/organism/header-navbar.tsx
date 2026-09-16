@@ -281,7 +281,7 @@ export function HeaderNavbar({ settings, services = [] }: HeaderNavbarProps) {
                                     asChild
                                     className="hidden"
                                 >
-                                    <a href={whatsappLink} target={settings.whatsapp_enabled ? "_blank" : undefined}>
+                                    <a href="/contact">
                                         <svg
                                             className="w-5 h-5 mr-2"
                                             fill="currentColor"

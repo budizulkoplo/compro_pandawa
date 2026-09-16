@@ -51,10 +51,10 @@
                 <div class="flex justify-center py-8">
                     <a href="{{ url('/') }}" class="inline-block">
                         <div class="inline-flex items-center gap-3 hover:scale-105 transition-transform duration-300">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo PT. Sinergy Garda Pratama" class="w-12 h-12 object-contain animate-float" />
+                            <img src="{{ asset('images/logo-removebg.png') }}" alt="Logo PT. Pandawa Meditech Pioneers" class="w-12 h-12 object-contain animate-float" />
                             <div class="text-left">
-                                <div class="text-xl font-bold text-gray-900">PT. SINERGY GARDA</div>
-                                <div class="text-sm text-blue-600 font-semibold">PRATAMA</div>
+                                <div class="text-xl font-bold text-gray-900">PT. PANDAWA MEDITECH</div>
+                                <div class="text-sm text-blue-600 font-semibold">PIONEERS</div>
                             </div>
                         </div>
                     </a>
@@ -85,7 +85,7 @@
                         </a>
                     </div>
                     <p class="text-xs text-gray-500 mt-4">
-                        © {{ date('Y') }} PT. Sinergy Garda Pratama. All rights reserved.
+                        © {{ date('Y') }} PT. Pandawa Meditech Pioneers. All rights reserved.
                     </p>
                 </div>
             </div>
