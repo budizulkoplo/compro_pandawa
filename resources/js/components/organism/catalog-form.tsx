@@ -4,25 +4,28 @@ import { Catalog, CatalogFormData } from '@/types/catalog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Textarea } from '@/components/ui/textarea'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import { RichTextEditor } from '@/components/editor/rich-text-editor'
 import { toast } from 'sonner'
 import { Loader2, Save } from 'lucide-react'
 import { create as createRoute } from '@/routes/admin/management-content/catalog'
 
 interface CatalogFormProps {
     catalog?: Catalog
+    services: { id: number; title: string }[]
     isEditing?: boolean
 }
 
-export function CatalogForm({ catalog, isEditing = false }: CatalogFormProps) {
+export function CatalogForm({ catalog, services, isEditing = false }: CatalogFormProps) {
     const { data, setData, post, processing, errors } = useForm<CatalogFormData>({
         name: catalog?.name || '',
         slug: catalog?.slug || '',
         description: catalog?.description || '',
         price: catalog?.price?.toString() || '',
         image: null,
+        service_id: catalog?.service_id?.toString() || '',
         isActive: catalog?.isActive ?? true,
         sortOrder: catalog?.sortOrder || 0,
     })
@@ -63,8 +66,27 @@ export function CatalogForm({ catalog, isEditing = false }: CatalogFormProps) {
 
                     <div className="space-y-2">
                         <Label htmlFor="description">Deskripsi</Label>
-                        <Textarea id="description" value={data.description} onChange={(event) => setData('description', event.target.value)} rows={5} required />
+                        <RichTextEditor
+                            content={data.description}
+                            onChange={(description) => setData('description', description)}
+                        />
                         {errors.description && <p className="text-sm text-destructive">{errors.description}</p>}
+                    </div>
+
+                    <div className="space-y-2">
+                        <Label htmlFor="service_id">Layanan</Label>
+                        <Select value={data.service_id || 'none'} onValueChange={(value) => setData('service_id', value === 'none' ? '' : value)}>
+                            <SelectTrigger id="service_id">
+                                <SelectValue placeholder="Pilih layanan" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="none">Tanpa layanan</SelectItem>
+                                {services.map((service) => (
+                                    <SelectItem key={service.id} value={service.id.toString()}>{service.title}</SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        {errors.service_id && <p className="text-sm text-destructive">{errors.service_id}</p>}
                     </div>
 
                     <div className="grid gap-5 md:grid-cols-2">

@@ -36,4 +36,9 @@ class Service extends Model
     {
         return $query->orderBy('sortOrder')->orderBy('created_at');
     }
+
+    public function catalogs()
+    {
+        return $this->hasMany(Catalog::class);
+    }
 }

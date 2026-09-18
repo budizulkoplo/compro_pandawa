@@ -11,6 +11,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     { title: 'Tambah Katalog', href: catalogCreate().url },
 ]
 
-export default function CreateCatalog() {
-    return <AppLayout breadcrumbs={breadcrumbs}><Head title="Tambah Katalog | Admin" /><div className="mx-auto max-w-4xl px-4 py-6"><HeadingSmall title="Tambah Katalog" description="Tambahkan item baru ke katalog website" /><div className="mt-6"><CatalogForm /></div></div></AppLayout>
+export default function CreateCatalog({ services }: { services: { id: number; title: string }[] }) {
+    return <AppLayout breadcrumbs={breadcrumbs}><Head title="Tambah Katalog | Admin" /><div className="mx-auto max-w-4xl px-4 py-6"><HeadingSmall title="Tambah Katalog" description="Tambahkan item baru ke katalog website" /><div className="mt-6"><CatalogForm services={services} /></div></div></AppLayout>
 }

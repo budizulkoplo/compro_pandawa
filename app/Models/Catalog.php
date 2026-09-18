@@ -15,6 +15,7 @@ class Catalog extends Model
         'description',
         'price',
         'image',
+        'service_id',
         'isActive',
         'sortOrder',
     ];
@@ -23,4 +24,9 @@ class Catalog extends Model
         'price' => 'decimal:2',
         'isActive' => 'boolean',
     ];
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 }
