@@ -45,7 +45,7 @@ export function HeroSection({ settings, clientCount, tagline, shortDescription, 
                                 <Button asChild className="rounded-full bg-[#008da4] px-6 py-5 text-sm font-semibold shadow-lg shadow-[#008da4]/20 hover:bg-[#006f85]">
                                     <a href={hero?.cta_url || '/services'}>{hero?.cta_label || 'Jelajahi Produk'} <ArrowRight className="ml-2 h-4 w-4" /></a>
                                 </Button>
-                                <Button asChild variant="outline" className="rounded-full border-[#008da4] bg-white/70 px-6 py-5 text-sm font-semibold text-[#007a91] hover:bg-white">
+                                <Button asChild variant="outline" className="rounded-full border-[#008da4] bg-white/70 px-6 py-5 text-sm font-semibold text-[#007a91] hover:border-[#008da4] hover:bg-[#008da4] hover:text-white">
                                     <a href={whatsappLink} target={settings.whatsapp_enabled ? "_blank" : undefined} rel="noopener noreferrer"><MessageCircle className="mr-2 h-4 w-4" /> Hubungi Kami</a>
                                 </Button>
                             </div>

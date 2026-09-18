@@ -122,13 +122,22 @@ const CustomImage = Image.extend({
                             const formData = new FormData()
                             formData.append('file', file)
 
-                            const response = await fetch('/admin/media/upload/', {
+                            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+                            const response = await fetch('/admin/media/upload', {
                                 method: 'POST',
                                 body: formData,
                                 credentials: 'include',
+                                headers: {
+                                    Accept: 'application/json',
+                                    'X-Requested-With': 'XMLHttpRequest',
+                                    ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}),
+                                },
                             })
 
-                            const result = await response.json()
+                            const result = await response.json().catch(() => ({
+                                success: false,
+                                error: `Upload gagal (${response.status})`,
+                            }))
 
                             if (result.success) {
 
@@ -297,13 +306,22 @@ useEffect(() => {
             const formData = new FormData()
             formData.append('file', file)
 
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
             const response = await fetch('/admin/media/upload', {
                 method: 'POST',
                 body: formData,
                 credentials: 'include',
+                headers: {
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    ...(csrfToken ? { 'X-CSRF-TOKEN': csrfToken } : {}),
+                },
             })
 
-            const result = await response.json()
+            const result = await response.json().catch(() => ({
+                success: false,
+                error: `Upload gagal (${response.status})`,
+            }))
 
             if (result.success) {
                 editor?.chain().focus().setImage({ src: result.url }).run()

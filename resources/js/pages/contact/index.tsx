@@ -165,7 +165,7 @@ function GoogleMapsSection({ mapsEmbed }: { mapsEmbed: string }) {
             return googleMapsMatch[0];
         }
 
-        return embed;
+        return `https://www.google.com/maps?q=${encodeURIComponent(embed)}&output=embed`;
     };
 
     const iframeSrc = getIframeSrc(mapsEmbed);
@@ -197,7 +197,7 @@ function GoogleMapsSection({ mapsEmbed }: { mapsEmbed: string }) {
                 </div>
                 <div className="mt-4 flex justify-center">
                     <a
-                        href={iframeSrc}
+                            href={iframeSrc.replace('&output=embed', '')}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="inline-flex items-center space-x-2 text-primary hover:text-primary/80 transition-colors text-sm font-medium"
@@ -215,6 +215,7 @@ export default function ContactIndex({
     companySettings,
     featuredServices
 }: ContactPageProps) {
+    const mapsEmbed = companySettings.google_maps_embed || companySettings.company_address;
 
     return (
         <MainLayout settings={companySettings} services={featuredServices}>
@@ -307,8 +308,8 @@ export default function ContactIndex({
                         {/* Main Content */}
                         <div className="lg:col-span-2 space-y-8">
                             {/* Google Maps */}
-                            {companySettings.google_maps_embed && (
-                                <GoogleMapsSection mapsEmbed={companySettings.google_maps_embed} />
+                            {mapsEmbed && (
+                                <GoogleMapsSection mapsEmbed={mapsEmbed} />
                             )}
 
                             {/* Contact Form */}
