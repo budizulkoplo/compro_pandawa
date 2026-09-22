@@ -1,25 +1,16 @@
 import { MainLayout } from '@/layouts/main-layout'
-import { CompanySetting } from '@/types'
+import { CompanySetting, Service } from '@/types'
 import { Catalog } from '@/types/catalog'
 import { Head, Link, router } from '@inertiajs/react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { ArrowRight, PackageSearch, SlidersHorizontal } from 'lucide-react'
+import { getImageUrl } from '@/utils/image-helper'
 
 interface CatalogPageProps {
     companySettings: CompanySetting
     catalogs: Catalog[]
     services: { id: number; title: string; slug: string }[]
-    featuredServices: {
-        id: number
-        title: string
-        slug: string
-        description: string
-        image?: string
-        isActive: boolean
-        sortOrder: number
-        created_at: string
-        updated_at: string
-    }[]
+    featuredServices: Service[]
     selectedService?: string
 }
 
@@ -75,7 +66,7 @@ export default function CatalogPage({ companySettings, catalogs, services, featu
                             {catalogs.map((catalog) => (
                                 <Link href={`/catalog/${catalog.slug}`} key={catalog.id} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-[#8be3ff] hover:shadow-xl">
                                     {catalog.image ? (
-                                        <img src={`/storage/${catalog.image}`} alt={catalog.name} className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105" />
+                                        <img src={getImageUrl(catalog.image)} alt={catalog.name} className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-105" />
                                     ) : (
                                         <div className="flex aspect-[4/3] items-center justify-center bg-[#e8f8fd] text-sm text-[#126088]">Tidak ada gambar</div>
                                     )}

@@ -148,17 +148,4 @@ export interface HomePageProps {
     miniGallery: GalleryItem[];
     aboutSnippet: AboutUs | null;
     certificates: Certificate[];
-    hero: Hero | null;
-}
-
-export interface Hero {
-    id?: number;
-    title: string;
-    subtitle: string;
-    description: string;
-    image_path?: string | null;
-    cta_label?: string | null;
-    cta_url?: string | null;
-    is_active?: boolean;
-    sort_order?: number;
 }

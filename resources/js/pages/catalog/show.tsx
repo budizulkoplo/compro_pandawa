@@ -1,23 +1,14 @@
 import { Head, Link } from '@inertiajs/react'
 import { MainLayout } from '@/layouts/main-layout'
-import { CompanySetting } from '@/types'
+import { CompanySetting, Service } from '@/types'
 import { Catalog } from '@/types/catalog'
 import { ArrowLeft, ArrowRight, CheckCircle2, Tag } from 'lucide-react'
+import { getImageUrl } from '@/utils/image-helper'
 
 interface CatalogShowPageProps {
     companySettings: CompanySetting
     catalog: Catalog
-    featuredServices: {
-        id: number
-        title: string
-        slug: string
-        description: string
-        image?: string
-        isActive: boolean
-        sortOrder: number
-        created_at: string
-        updated_at: string
-    }[]
+    featuredServices: Service[]
 }
 
 export default function CatalogShowPage({ companySettings, catalog, featuredServices }: CatalogShowPageProps) {
@@ -39,7 +30,7 @@ export default function CatalogShowPage({ companySettings, catalog, featuredServ
                     <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/60">
                         <div>
                         {catalog.image ? (
-                            <img src={`/storage/${catalog.image}`} alt={catalog.name} className="block h-auto max-h-[min(70vh,720px)] w-full object-contain bg-slate-100" />
+                            <img src={getImageUrl(catalog.image)} alt={catalog.name} className="block h-auto max-h-[min(70vh,720px)] w-full object-contain bg-slate-100" />
                         ) : (
                             <div className="flex min-h-64 items-center justify-center bg-[#e8f8fd] text-[#126088]">Tidak ada gambar</div>
                         )}
