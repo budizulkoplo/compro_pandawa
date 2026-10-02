@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ManagementContent\CatalogController;
 use App\Http\Controllers\Admin\MediaUploadController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\ManagementContent\HeroController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -23,6 +24,10 @@ Route::middleware(['auth'])->group(function () {
             ->name('register.store');
 
         Route::get('dashboard', [\App\Http\Controllers\Admin\DashboardController::class, 'index'])->name('admin.dashboard');
+
+        Route::resource('users', UserController::class, [
+            'as' => 'admin',
+        ])->except(['show']);
 
         Route::prefix('management-content')->group(function () {
             Route::get('hero', [HeroController::class, 'index'])->name('admin.management-content.hero.index');

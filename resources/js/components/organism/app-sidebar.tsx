@@ -22,7 +22,7 @@ import { index as media } from '@/routes/admin/media';
 import { index as certificates } from '@/routes/admin/certificates';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { Award, BookOpen, Briefcase, Building2, Cog, FactoryIcon, FolderCog, Images, LayoutGrid, PanelsTopLeft, SendIcon } from 'lucide-react';
+import { Award, BookOpen, Briefcase, Building2, Cog, FactoryIcon, FolderCog, Images, LayoutGrid, PanelsTopLeft, SendIcon, UsersRound } from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -77,6 +77,11 @@ const mainNavItems: NavItem[] = [
         title: 'Sertifikat',
         href: certificates(),
         icon: Award,
+    },
+    {
+        title: 'Pengguna',
+        href: '/admin/users',
+        icon: UsersRound,
     },
     {
         title: 'Pengaturan',

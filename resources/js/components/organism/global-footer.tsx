@@ -36,20 +36,18 @@ export function GlobalFooter({ settings, services = [] }: GlobalFooterProps) {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-6 py-16 border-b border-white/10">
                     {/* Company Info */}
                     <div className="lg:col-span-1">
-                        <div className="flex items-center gap-3 mb-6">
-                            <div className="rounded-lg bg-white p-2 shadow-sm">
+                        <div className="mb-6 flex flex-col items-center gap-4 text-center">
+                            <div className="relative isolate flex h-44 w-full items-center justify-center">
                                 <AppLogo
                                     logoPath={settings.logo_path}
                                     companyName={settings.company_name}
-                                    size="sm"
+                                    size="md"
+                                    className="h-40 w-auto max-w-full object-contain drop-shadow-[0_0_1px_rgba(255,255,255,0.9)] drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]"
                                 />
                             </div>
-                            <div>
-                                <h3 className="text-xl font-bold text-white">
-                                    {settings.company_name}
-                                </h3>
-                                <p className="text-xs text-white/70">{settings.tagline}</p>
-                            </div>
+                            <p className="max-w-xs text-sm font-medium leading-6 text-white/80">
+                                {settings.tagline || "Healthcare Supplies, Trusted Solutions"}
+                            </p>
                         </div>
                         <p className="text-sm text-white/80 leading-relaxed mb-6">
                             {settings.company_description}

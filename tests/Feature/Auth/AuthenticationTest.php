@@ -19,7 +19,44 @@ test('users can authenticate using the login screen', function () {
     ]);
 
     $this->assertAuthenticated();
-    $response->assertRedirect(route('admin.dashboard', absolute: false));
+    $response->assertRedirect(route('admin', absolute: false));
+});
+
+test('guest visiting admin is redirected back to admin after login', function () {
+    $user = User::factory()->withoutTwoFactor()->create();
+
+    $this->get(route('admin'))->assertRedirect(route('login'));
+
+    $response = $this->post(route('login.store'), [
+        'email' => $user->email,
+        'password' => 'password',
+    ]);
+
+    $this->assertAuthenticatedAs($user);
+    $response->assertRedirect(route('admin', absolute: false));
+});
+
+test('login always redirects to admin even when an old public intended url exists', function () {
+    $user = User::factory()->withoutTwoFactor()->create();
+
+    $response = $this
+        ->withSession(['url.intended' => route('home')])
+        ->post(route('login.store'), [
+            'email' => $user->email,
+            'password' => 'password',
+        ]);
+
+    $this->assertAuthenticatedAs($user);
+    $response->assertRedirect(route('admin', absolute: false));
+});
+
+test('authenticated users visiting login are redirected to admin', function () {
+    $user = User::factory()->withoutTwoFactor()->create();
+
+    $this
+        ->actingAs($user)
+        ->get(route('login'))
+        ->assertRedirect(route('admin', absolute: false));
 });
 
 test('users with two factor enabled are redirected to two factor challenge', function () {
