@@ -22,7 +22,7 @@ export interface CatalogFormData {
     slug: string
     description: string
     price: string
-    image: File | null
+    image: File | string | null
     service_id: string
     isActive: boolean
     sortOrder: number

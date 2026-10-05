@@ -191,7 +191,7 @@ export function PortfolioForm({ client, isEdit = false }: PortfolioFormProps) {
                         <CardContent>
                             <FileUpload
                                 label="Logo Perusahaan"
-                                value={typeof data.logo_path === 'string' ? data.logo_path : null}
+                                value={data.logo_path}
                                 onChange={(path) => {
                                     // If path is an array, take the first item, otherwise use as is
                                     if (Array.isArray(path)) {

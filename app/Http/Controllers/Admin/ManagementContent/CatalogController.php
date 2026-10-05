@@ -33,6 +33,9 @@ class CatalogController extends Controller
 
         if ($request->hasFile('image')) {
             $validated['image'] = $request->file('image')->store('catalogs', 'public');
+        } elseif (is_string($request->input('image')) && !empty($request->input('image'))) {
+            // Path dari media library.
+            $validated['image'] = $request->input('image');
         } else {
             unset($validated['image']);
         }
@@ -64,6 +67,12 @@ class CatalogController extends Controller
                 Storage::disk('public')->delete($catalog->image);
             }
             $validated['image'] = $request->file('image')->store('catalogs', 'public');
+        } elseif (is_string($request->input('image')) && !empty($request->input('image'))) {
+            // Path dari media library.
+            if ($catalog->image && $catalog->image !== $request->input('image')) {
+                Storage::disk('public')->delete($catalog->image);
+            }
+            $validated['image'] = $request->input('image');
         } else {
             unset($validated['image']);
         }
@@ -94,7 +103,10 @@ class CatalogController extends Controller
             'description' => 'required|string',
             'price' => 'nullable|numeric|min:0',
             'service_id' => 'nullable|integer|exists:services,id',
-            'image' => 'nullable|image|max:5120',
+            // Bisa berupa file upload baru atau path dari media library.
+            'image' => $request->hasFile('image')
+                ? 'nullable|image|max:5120'
+                : 'nullable|string',
             'isActive' => 'boolean',
             'sortOrder' => 'integer|min:0',
         ]);

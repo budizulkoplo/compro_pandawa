@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label'
 import { X, Image as ImageIcon, Loader2, GripVertical } from 'lucide-react'
 import { toast } from 'sonner'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
+import { getCsrfToken } from '@/utils/csrf'
 
 interface MultiImageUploadProps {
     label: string
@@ -47,16 +48,28 @@ export function MultiImageUpload({
 
                 const formData = new FormData()
                 formData.append('file', file)
+                formData.append('_token', getCsrfToken())
 
                 const response = await fetch('/admin/media/upload', {
                     method: 'POST',
                     body: formData,
+                    credentials: 'same-origin',
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                        Accept: 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': getCsrfToken(),
                     },
                 })
 
-                const result = await response.json()
+                const result = await response.json().catch(() => null)
+                if (!response.ok || !result) {
+                    throw new Error(
+                        response.status === 419
+                            ? 'Sesi login atau keamanan sudah kadaluarsa. Silakan refresh halaman lalu coba lagi.'
+                            : `Upload gagal (HTTP ${response.status})`,
+                    )
+                }
+
                 if (!result.success) {
                     throw new Error(result.error || `Gagal upload ${file.name}`)
                 }
@@ -109,7 +122,9 @@ export function MultiImageUpload({
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': getCsrfToken(),
                 },
                 body: JSON.stringify({ path: pathToRemove }),
             })

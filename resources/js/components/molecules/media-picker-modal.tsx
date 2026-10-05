@@ -31,6 +31,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
+import { getCsrfToken } from '@/utils/csrf'
 
 interface MediaFile {
     id: number
@@ -180,19 +181,29 @@ export function MediaPickerModal({
         try {
             const formData = new FormData()
             formData.append('file', uploadFile)
+            formData.append('_token', getCsrfToken())
 
             const response = await fetch('/admin/media/upload', {
                 method: 'POST',
                 body: formData,
+                credentials: 'same-origin',
                 headers: {
-                    'X-CSRF-TOKEN':
-                        document
-                            .querySelector('meta[name="csrf-token"]')
-                            ?.getAttribute('content') || '',
+                    Accept: 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': getCsrfToken(),
                 },
             })
 
-            const result = await response.json()
+            const result = await response.json().catch(() => null)
+
+            if (!response.ok || !result) {
+                toast.error(
+                    response.status === 419
+                        ? 'Sesi login atau keamanan sudah kadaluarsa. Silakan refresh halaman lalu coba lagi.'
+                        : `Upload gagal (HTTP ${response.status})`,
+                )
+                return
+            }
 
             if (result.success) {
                 onSelect(result.path)

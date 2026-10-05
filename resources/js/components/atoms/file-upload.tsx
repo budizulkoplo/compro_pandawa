@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 interface FileUploadProps {
     label: string
     accept: string
-    value: string | string[] | null
+    value: string | File | Array<string | File> | null
     onChange: (files: File | string | File[] | string[] | null) => void // Support single or multiple
     type: 'image' | 'video'
     error?: string
@@ -30,16 +30,49 @@ export function FileUpload({
     const [previewModal, setPreviewModal] = useState(false)
     const [selectedPreviewIndex, setSelectedPreviewIndex] = useState<number>(0)
     const [showMediaPicker, setShowMediaPicker] = useState(false)
+    const [isDragging, setIsDragging] = useState(false)
     const fileInputRef = useRef<HTMLInputElement>(null)
+
+    const handleFiles = (files: File[]) => {
+        const maxSize = type === 'video' ? 10 * 1024 * 1024 : 5 * 1024 * 1024
+        const validFiles = files.filter((file) => {
+            if (type === 'image' && !file.type.startsWith('image/')) {
+                toast.error('File harus berupa gambar')
+                return false
+            }
+
+            if (type === 'video' && !file.type.startsWith('video/')) {
+                toast.error('File harus berupa video')
+                return false
+            }
+
+            if (file.size > maxSize) {
+                toast.error(`Ukuran file maksimal ${type === 'video' ? '10MB' : '5MB'}`)
+                return false
+            }
+
+            return true
+        })
+
+        if (multiple) {
+            onChange(validFiles)
+        } else {
+            onChange(validFiles[0] || null)
+        }
+    }
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (multiple) {
-            const files = Array.from(e.target.files || [])
-            onChange(files)
+            handleFiles(Array.from(e.target.files || []))
         } else {
-            const file = e.target.files?.[0] || null
-            onChange(file)
+            handleFiles(e.target.files?.[0] ? [e.target.files[0]] : [])
         }
+    }
+
+    const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        setIsDragging(false)
+        handleFiles(Array.from(e.dataTransfer.files))
     }
 
     const handleClick = () => {
@@ -51,7 +84,7 @@ export function FileUpload({
         if (multiple && Array.isArray(value) && typeof index === 'number') {
             // Remove specific item from array
             const newValues = value.filter((_, i) => i !== index)
-            onChange(newValues.length > 0 ? newValues : null)
+            onChange(newValues.length > 0 ? newValues as File[] | string[] : null)
         } else {
             // Clear all
             onChange(null)
@@ -73,7 +106,7 @@ export function FileUpload({
         if (multiple && Array.isArray(paths)) {
             // Multiple selection
             const currentValues = Array.isArray(value) ? value : []
-            onChange([...currentValues, ...paths])
+            onChange([...currentValues, ...paths] as File[] | string[])
             toast.success(`${paths.length} ${type === 'image' ? 'gambar' : 'video'} berhasil dipilih dari library`)
         } else if (typeof paths === 'string') {
             // Single selection
@@ -83,12 +116,13 @@ export function FileUpload({
     }
 
     // Get current preview URL for modal
-    const getPreviewUrl = () => {
+    const getPreviewUrl = (): string | null => {
         if (!value) return null
         if (Array.isArray(value)) {
-            return value[selectedPreviewIndex] || value[0]
+            const item = value[selectedPreviewIndex] || value[0]
+            return item instanceof File ? URL.createObjectURL(item) : item
         }
-        return value
+        return value instanceof File ? URL.createObjectURL(value) : value
     }
 
     // Check if has any value
@@ -172,7 +206,23 @@ export function FileUpload({
                         </div>
                     ) : (
                         // Single item preview
-                        <div className="relative group border-2 border-dashed rounded-lg p-4">
+                        <div
+                            className="relative group border-2 border-dashed rounded-lg p-4"
+                            onDragEnter={(e) => {
+                                e.preventDefault()
+                                setIsDragging(true)
+                            }}
+                            onDragOver={(e) => e.preventDefault()}
+                            onDragLeave={() => setIsDragging(false)}
+                            onDrop={handleDrop}
+                        >
+                            <div
+                                className={`pointer-events-none absolute inset-0 z-10 flex items-center justify-center rounded-lg border-2 border-dashed bg-background/90 text-sm font-medium transition-opacity ${
+                                    isDragging ? 'border-blue-500 opacity-100' : 'opacity-0'
+                                }`}
+                            >
+                                Lepaskan file untuk mengganti gambar
+                            </div>
                             <div className="flex items-center justify-between">
                                 <div className="flex items-center gap-3">
                                     {type === 'image' ? (
@@ -231,11 +281,24 @@ export function FileUpload({
                     <>
                         <div
                             onClick={handleClick}
-                            className="border-2 border-dashed rounded-lg p-8 text-center cursor-pointer hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10 transition-colors"
+                            onDragEnter={(e) => {
+                                e.preventDefault()
+                                setIsDragging(true)
+                            }}
+                            onDragOver={(e) => e.preventDefault()}
+                            onDragLeave={() => setIsDragging(false)}
+                            onDrop={handleDrop}
+                            className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                                isDragging
+                                    ? 'border-blue-500 bg-blue-50 dark:border-blue-400 dark:bg-blue-900/20'
+                                    : 'hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/10'
+                            }`}
                         >
                             <Upload className="w-12 h-12 mx-auto" />
                             <p className="text-sm font-medium mb-1">
-                                Klik untuk upload {type === 'image' ? 'gambar' : 'video'} baru
+                                {isDragging
+                                    ? `Lepaskan ${type === 'image' ? 'gambar' : 'video'} di sini`
+                                    : `Klik atau drag & drop ${type === 'image' ? 'gambar' : 'video'} baru`}
                             </p>
                             <p className="text-xs">
                                 {type === 'image'

@@ -4,11 +4,11 @@ import { Catalog, CatalogFormData } from '@/types/catalog'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { getImageUrl } from '@/utils/image-helper'
 import { Label } from '@/components/ui/label'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { RichTextEditor } from '@/components/editor/rich-text-editor'
+import { FileUpload } from '@/components/atoms/file-upload'
 import { toast } from 'sonner'
 import { Loader2, Save } from 'lucide-react'
 import { create as createRoute } from '@/routes/admin/management-content/catalog'
@@ -30,6 +30,8 @@ export function CatalogForm({ catalog, services, isEditing = false }: CatalogFor
         isActive: catalog?.isActive ?? true,
         sortOrder: catalog?.sortOrder || 0,
     })
+
+    const imageValue = data.image || catalog?.image || null
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault()
@@ -91,12 +93,18 @@ export function CatalogForm({ catalog, services, isEditing = false }: CatalogFor
                     </div>
 
                     <div className="grid gap-5 md:grid-cols-2">
-                        <div className="space-y-2">
-                            <Label htmlFor="image">Gambar katalog</Label>
-                            <Input id="image" type="file" accept="image/*" onChange={(event) => setData('image', event.target.files?.[0] || null)} />
-                            {catalog?.image && <img src={getImageUrl(catalog.image)} alt={catalog.name} className="mt-2 h-32 w-48 rounded-md object-cover" />}
-                            {errors.image && <p className="text-sm text-destructive">{errors.image}</p>}
-                        </div>
+                        <FileUpload
+                            label="Gambar katalog"
+                            accept="image/*"
+                            value={imageValue}
+                            onChange={(file) => {
+                                if (file instanceof File || typeof file === 'string' || file === null) {
+                                    setData('image', file)
+                                }
+                            }}
+                            type="image"
+                            error={errors.image}
+                        />
                         <div className="space-y-2">
                             <Label htmlFor="sortOrder">Urutan tampil</Label>
                             <Input id="sortOrder" type="number" min="0" value={data.sortOrder} onChange={(event) => setData('sortOrder', Number(event.target.value))} />
