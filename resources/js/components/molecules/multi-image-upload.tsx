@@ -5,7 +5,7 @@ import { Label } from '@/components/ui/label'
 import { X, Image as ImageIcon, Loader2, GripVertical } from 'lucide-react'
 import { toast } from 'sonner'
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd'
-import { getCsrfToken } from '@/utils/csrf'
+import { refreshCsrfToken } from '@/utils/csrf'
 
 interface MultiImageUploadProps {
     label: string
@@ -37,6 +37,7 @@ export function MultiImageUpload({
         setUploading(true)
 
         try {
+            const csrfToken = await refreshCsrfToken()
             const uploadPromises = filesToUpload.map(async (file) => {
                 if (!file.type.startsWith('image/')) {
                     throw new Error(`${file.name} bukan file gambar`)
@@ -48,7 +49,7 @@ export function MultiImageUpload({
 
                 const formData = new FormData()
                 formData.append('file', file)
-                formData.append('_token', getCsrfToken())
+                formData.append('_token', csrfToken)
 
                 const response = await fetch('/admin/media/upload', {
                     method: 'POST',
@@ -57,7 +58,7 @@ export function MultiImageUpload({
                     headers: {
                         Accept: 'application/json',
                         'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': getCsrfToken(),
+                        'X-CSRF-TOKEN': csrfToken,
                     },
                 })
 
@@ -118,13 +119,14 @@ export function MultiImageUpload({
         const pathToRemove = value[index]
 
         try {
+            const csrfToken = await refreshCsrfToken()
             const response = await fetch('/admin/media/delete', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': getCsrfToken(),
+                    'X-CSRF-TOKEN': csrfToken,
                 },
                 body: JSON.stringify({ path: pathToRemove }),
             })

@@ -3,9 +3,36 @@ export function getCsrfToken(): string {
         .split('; ')
         .find((cookie) => cookie.startsWith('XSRF-TOKEN='))
 
-    if (xsrfCookie) {
-        return decodeURIComponent(xsrfCookie.slice('XSRF-TOKEN='.length))
+    const metaToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+
+    if (metaToken) {
+        return metaToken
     }
 
-    return document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+    return xsrfCookie
+        ? decodeURIComponent(xsrfCookie.slice('XSRF-TOKEN='.length))
+        : ''
+}
+
+export async function refreshCsrfToken(): Promise<string> {
+    try {
+        const response = await fetch('/admin/media/csrf-token', {
+            credentials: 'same-origin',
+            headers: {
+                Accept: 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+            },
+        })
+
+        const result = await response.json().catch(() => null)
+
+        if (response.ok && typeof result?.token === 'string' && result.token) {
+            document.querySelector('meta[name="csrf-token"]')?.setAttribute('content', result.token)
+            return result.token
+        }
+    } catch {
+        // Use the token already available in the page as a fallback.
+    }
+
+    return getCsrfToken()
 }

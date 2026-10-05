@@ -105,6 +105,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('media')->group(function () {
             Route::get('/', [MediaUploadController::class, 'index'])->name('admin.media.index');
+            Route::get('/csrf-token', fn () => response()->json([
+                'token' => csrf_token(),
+            ]))->name('admin.media.csrf-token');
             Route::get('/data', [MediaUploadController::class, 'data'])->name('admin.media.data');
             Route::post('/upload', [MediaUploadController::class, 'upload'])->name('admin.media.upload');
             Route::delete('/delete', [MediaUploadController::class, 'delete'])->name('admin.media.delete');

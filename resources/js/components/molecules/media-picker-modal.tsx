@@ -31,7 +31,7 @@ import {
 } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
-import { getCsrfToken } from '@/utils/csrf'
+import { refreshCsrfToken } from '@/utils/csrf'
 
 interface MediaFile {
     id: number
@@ -179,9 +179,10 @@ export function MediaPickerModal({
 
         setUploading(true)
         try {
+            const csrfToken = await refreshCsrfToken()
             const formData = new FormData()
             formData.append('file', uploadFile)
-            formData.append('_token', getCsrfToken())
+            formData.append('_token', csrfToken)
 
             const response = await fetch('/admin/media/upload', {
                 method: 'POST',
@@ -190,7 +191,7 @@ export function MediaPickerModal({
                 headers: {
                     Accept: 'application/json',
                     'X-Requested-With': 'XMLHttpRequest',
-                    'X-CSRF-TOKEN': getCsrfToken(),
+                    'X-CSRF-TOKEN': csrfToken,
                 },
             })
 
