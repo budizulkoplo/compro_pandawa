@@ -65,7 +65,7 @@ export function HeroSection({ settings, clientCount, tagline, shortDescription, 
                 <div className="mx-auto grid max-w-7xl grid-cols-2 divide-x divide-[#dbeef2] sm:grid-cols-4">
                     {[
                         { icon: Building2, label: 'Tahun Berdiri', value: settings.founding_year || currentYear - yearsOfExperience },
-                        { icon: MapPin, label: 'Lokasi Operasional', value: 'Jawa Tengah & DIY' },
+                        { icon: MapPin, label: 'Lokasi Operasional', value: settings.operational_location || 'Jawa Tengah & DIY' },
                         { icon: PackageCheck, label: 'Jumlah Klien', value: `${clientCount}+` },
                         { icon: ChevronDown, label: 'Pengalaman', value: `${yearsOfExperience}+ tahun` },
                     ].map(({ icon: Icon, label, value }) => (

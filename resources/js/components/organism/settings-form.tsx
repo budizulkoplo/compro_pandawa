@@ -28,6 +28,7 @@ interface CompanySettings {
     id?: number;
     company_name: string;
     company_address: string;
+    operational_location: string;
     company_phone: string;
     company_email: string;
     company_website: string;
@@ -56,6 +57,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
     const [formData, setFormData] = useState<CompanySettings>({
         company_name: settings.company_name || '',
         company_address: settings.company_address || '',
+        operational_location: settings.operational_location || 'Jawa Tengah & DIY',
         company_phone: settings.company_phone || '',
         company_email: settings.company_email || '',
         company_website: settings.company_website || '',
@@ -108,6 +110,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
             Object.entries({
                 company_name: formData.company_name,
                 company_address: formData.company_address,
+                operational_location: formData.operational_location,
                 company_phone: formData.company_phone,
                 company_email: formData.company_email,
                 company_website: formData.company_website,
@@ -123,7 +126,7 @@ export function SettingsForm({ settings }: SettingsFormProps) {
                 meta_title: formData.meta_title,
                 meta_description: formData.meta_description,
                 meta_keywords: formData.meta_keywords,
-                founding_year: formData.founding_year,
+                founding_year: formData.founding_year ?? '',
             }).forEach(([key, value]) => {
                 if (value instanceof File) {
                     data.append(key, value);
@@ -197,6 +200,31 @@ export function SettingsForm({ settings }: SettingsFormProps) {
                         }
                         type="textarea"
                     />
+
+                    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+                        <FormField
+                            label="Tahun Berdiri"
+                            name="founding_year"
+                            value={formData.founding_year?.toString() || ''}
+                            onChange={(value) =>
+                                handleInputChange(
+                                    'founding_year',
+                                    value ? Number(value) : null,
+                                )
+                            }
+                            type="number"
+                            placeholder="Contoh: 2022"
+                        />
+                        <FormField
+                            label="Lokasi Operasional"
+                            name="operational_location"
+                            value={formData.operational_location}
+                            onChange={(value) =>
+                                handleInputChange('operational_location', value)
+                            }
+                            placeholder="Contoh: Jawa Tengah & DIY"
+                        />
+                    </div>
 
                     <FormField
                         label="Deskripsi Perusahaan"

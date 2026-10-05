@@ -10,6 +10,7 @@ class CompanySetting extends Model
     protected $fillable = [
         'company_name',
         'company_address',
+        'operational_location',
         'company_phone',
         'company_email',
         'company_website',
@@ -32,6 +33,7 @@ class CompanySetting extends Model
     protected $casts = [
         'social_media' => 'array',
         'whatsapp_enabled' => 'boolean',
+        'founding_year' => 'integer',
     ];
 
     public static function getSettings()
@@ -41,6 +43,7 @@ class CompanySetting extends Model
             return [
                 'company_name' => '',
                 'company_address' => '',
+                'operational_location' => 'Jawa Tengah & DIY',
                 'company_phone' => '',
                 'company_email' => '',
                 'company_website' => '',
@@ -61,6 +64,7 @@ class CompanySetting extends Model
                 'meta_title' => '',
                 'meta_description' => '',
                 'meta_keywords' => '',
+                'founding_year' => null,
             ];
         }
         return $settings->toArray();

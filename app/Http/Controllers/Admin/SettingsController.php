@@ -25,6 +25,16 @@ class SettingsController extends Controller
 
         $data = $request->all();
 
+        if (array_key_exists('founding_year', $data)) {
+            $data['founding_year'] = $data['founding_year'] === ''
+                ? null
+                : (int) $data['founding_year'];
+        }
+
+        if (array_key_exists('operational_location', $data)) {
+            $data['operational_location'] = trim((string) $data['operational_location']) ?: null;
+        }
+
         foreach (['logo_path', 'favicon_path'] as $field) {
             if ($request->hasFile($field)) {
                 if ($settings->{$field} && !str_starts_with($settings->{$field}, 'http')) {

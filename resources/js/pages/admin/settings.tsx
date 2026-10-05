@@ -11,6 +11,7 @@ interface CompanySettings {
     id?: number
     company_name: string
     company_address: string
+    operational_location: string
     company_phone: string
     company_email: string
     company_website: string

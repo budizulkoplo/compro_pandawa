@@ -12,6 +12,7 @@ class CompanySettingsSeeder extends Seeder
         DB::table('company_settings')->insert([
             'company_name' => 'PT. Pandawa Meditech Pioneers',
             'company_address' => 'Jawa Tengah dan DIY, Indonesia',
+            'operational_location' => 'Jawa Tengah & DIY',
             'company_phone' => '+62 811-2682-105',
             'company_email' => 'pandawameditechpioneers@gmail.com',
             'company_website' => null,
